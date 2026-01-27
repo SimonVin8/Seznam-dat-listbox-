@@ -5,8 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Seznam_dat__listbox_"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        ResizeMode="NoResize"
+        Background="LightPink"
+        Title="MainWindow" Height="450" Width="400">
     <Grid>
+        <ListBox x:Name="ListData" Width="200" Height="300" Margin="28,58,172,76">
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete selected" Click="MenuItem_Click"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+        </ListBox>
+        <TextBox x:Name="BrandInput" HorizontalAlignment="Left" Margin="249,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.192,-0.109"/>
+        <TextBox x:Name="ModelInput" HorizontalAlignment="Left" Margin="249,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.192,-0.109"/>
+        <TextBox x:Name="PowerInput" MaxLength="3" HorizontalAlignment="Left" Margin="249,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.192,-0.109"/>
+        <Label x:Name="lbl" Content="Brand:" HorizontalAlignment="Left" Margin="249,73,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <Label Content="Model:" HorizontalAlignment="Left" Margin="249,131,0,0" VerticalAlignment="Top" Foreground="{Binding ElementName=lbl, Path=Foreground}"/>
+        <Label Content="Power:" HorizontalAlignment="Left" Margin="250,186,0,0" VerticalAlignment="Top" Foreground="{Binding ElementName=lbl, Path=Foreground}"/>
+        <Button Content="Create New" HorizontalAlignment="Left" Margin="249,251,0,0" VerticalAlignment="Top" Width="120" Click="Button_Click"/>
 
     </Grid>
 </Window>
