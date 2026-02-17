@@ -7,12 +7,16 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Background="LightPink"
-        Title="MainWindow" Height="450" Width="400">
+        Title="Car evidence" Height="450" Width="400">
     <Grid>
         <ListBox x:Name="ListData" Width="200" Height="300" Margin="28,58,172,76">
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Delete selected" Click="MenuItem_Click"/>
+                    <MenuItem Header="Delete selected" Click="MenuItem_Click">
+                        <MenuItem.Icon>
+                            <Image Source="/Resources/bin.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </ContextMenu>
             </ListBox.ContextMenu>
         </ListBox>

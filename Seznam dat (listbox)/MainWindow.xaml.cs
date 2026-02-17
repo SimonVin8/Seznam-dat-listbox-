@@ -1,6 +1,10 @@
 ﻿using Seznam_dat__listbox_.Models;
+using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Text;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -22,9 +26,18 @@ namespace Seznam_dat__listbox_
         public ObservableCollection<car> Cars { get; set; }
         public MainWindow()
         {
-            Cars = new();
+            
             InitializeComponent();
+            Cars = new(Load()); 
             ListData.ItemsSource = Cars;
+            Closing += SaveData;    //registrace události (SaveData při ukončení okna)
+           
+            
+        }
+
+        private void SaveData(object sender, CancelEventArgs e)
+        {
+            Save();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -71,6 +84,31 @@ namespace Seznam_dat__listbox_
             {
                 Cars.Remove(selected);
             }
+        }
+
+        private void Save()
+        {
+            string data = JsonSerializer.Serialize<List<car>>(Cars.ToList()); // převod ObservableCollection na List, protože JsonSerializer neumí serializovat ObservableCollection
+            using (var writer = new StreamWriter("data.json"))
+            {
+                writer.WriteLine(data);     // zapsání dat do souboru
+                writer.Flush();     // zajištění, že se data skutečně zapíší do souboru
+                writer.Close();     // uzavření streamu
+            }
+        }
+
+        private List<car> Load()
+        {
+            List<car> data;
+            if (File.Exists("data.json"))
+            {
+                using StreamReader reader = new StreamReader("data.json");
+                string content = reader.ReadToEnd();
+                data = JsonSerializer.Deserialize<List<car>>(content) ?? new List<car>();   // ?? -> pokud je levá null, použije se nový prázdný seznam (pravá strana)
+                reader.Close();
+                return data;
+            }
+           return new List<car>();
         }
     }
 }
