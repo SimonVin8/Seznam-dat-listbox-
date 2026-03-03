@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
@@ -85,6 +86,43 @@ namespace Seznam_dat__listbox_
                 Cars.Remove(selected);
             }
         }
+
+        void MenuItemEdit_Click(object sender, RoutedEventArgs e)   //když napíšeme jenom void tak je private = private void ...
+        {
+            bool wasEdited = false;
+            car? selected = ListData.SelectedItem as car;   // ? -> povoluje hodnotu null
+            if (selected != null)
+            {
+                if (IsEditable(BrandInput))
+                {
+                     selected.Brand = BrandInput.Text;
+                    wasEdited = true;
+                }
+
+                if (IsEditable(ModelInput))
+                {
+                    selected.Model = ModelInput.Text;
+                    wasEdited = true;
+                }
+
+                if (IsEditable(PowerInput))
+                {
+                    selected.Power = int.Parse(PowerInput.Text);       //Pozor zatím neřešíme chybový stav
+                    wasEdited = true;
+                }
+            }
+            if (wasEdited)
+            {
+                Clear();
+            }
+        }
+
+        private bool IsEditable(TextBox tb)
+        {
+            return tb.Text.Length > 0;
+        }
+
+
 
         private void Save()
         {
