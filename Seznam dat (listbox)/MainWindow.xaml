@@ -32,6 +32,7 @@
         <Label Content="Model:" HorizontalAlignment="Left" Margin="249,131,0,0" VerticalAlignment="Top" Foreground="{Binding ElementName=lbl, Path=Foreground}"/>
         <Label Content="Power:" HorizontalAlignment="Left" Margin="250,186,0,0" VerticalAlignment="Top" Foreground="{Binding ElementName=lbl, Path=Foreground}"/>
         <Button Content="Create New" HorizontalAlignment="Left" Margin="249,251,0,0" VerticalAlignment="Top" Width="120" Click="Button_Click"/>
+        <Button x:Name="SaveButton" Visibility="Hidden" Content="Save" HorizontalAlignment="Left" Margin="250,284,0,0" VerticalAlignment="Top" Width="119" Click="SaveButton_Click"/>
 
     </Grid>
 </Window>

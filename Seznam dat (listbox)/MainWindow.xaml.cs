@@ -89,37 +89,15 @@ namespace Seznam_dat__listbox_
 
         void MenuItemEdit_Click(object sender, RoutedEventArgs e)   //když napíšeme jenom void tak je private = private void ...
         {
-            bool wasEdited = false;
+           
             car? selected = ListData.SelectedItem as car;   // ? -> povoluje hodnotu null
             if (selected != null)
             {
-                if (IsEditable(BrandInput))
-                {
-                     selected.Brand = BrandInput.Text;
-                    wasEdited = true;
-                }
-
-                if (IsEditable(ModelInput))
-                {
-                    selected.Model = ModelInput.Text;
-                    wasEdited = true;
-                }
-
-                if (IsEditable(PowerInput))
-                {
-                    selected.Power = int.Parse(PowerInput.Text);       //Pozor zatím neřešíme chybový stav
-                    wasEdited = true;
-                }
+                BrandInput.Text = selected.Brand;
+                ModelInput.Text = selected.Model;
+                PowerInput.Text = selected.Power.ToString();
+                SaveButton.Visibility = Visibility.Visible;
             }
-            if (wasEdited)
-            {
-                Clear();
-            }
-        }
-
-        private bool IsEditable(TextBox tb)
-        {
-            return tb.Text.Length > 0;
         }
 
 
@@ -147,6 +125,30 @@ namespace Seznam_dat__listbox_
                 return data;
             }
            return new List<car>();
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string brand = ValidateTextInput(BrandInput.Text) ? BrandInput.Text : throw new Exception("BrandInput value is not supported");
+                string model = ValidateTextInput(ModelInput.Text) ? ModelInput.Text : throw new Exception("ModelInput value is not supported"); ;
+                if (!ValidateInteger(PowerInput.Text, out int power)) throw new Exception("PowerInput value is not supported");
+
+
+                car car = new car() { Brand = brand, Model = model, Power = power };
+                car selected = ListData.SelectedItem as car;
+                var index = Cars.IndexOf(selected); // získání indexu původního objektu v kolekci
+                Cars[index] = car;      // nahrazení původního objektu novým objektem na stejném indexu
+                Clear();
+                SaveButton.Visibility = Visibility.Hidden;
+               //CollectionViewSource.GetDefaultView(Cars).Refresh();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
